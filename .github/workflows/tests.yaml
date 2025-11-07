@@ -3,7 +3,7 @@ name: Tests
 on:
     pull_request: null
     push:
-        branches: [ master, main ]
+        branches: [ master, main, symfony8-support ]
     schedule:
         # Do not make it the first of the month and/or midnight since it is a very busy time
         - cron: "* 10 5 * *"
@@ -41,6 +41,12 @@ jobs:
                     - 'no-change'
                     - 'symfony/http-kernel:^6.4.19 symfony/validator:^6.4.19'
                     - 'symfony/http-kernel:^7.2.4 symfony/validator:^7.2.4'
+                    - 'symfony/http-kernel:^8.0.0@beta symfony/validator:^8.0.0@beta'
+                exclude:
+                    - php-version: '8.3'
+                      dependencies: [ highest, lowest ]
+                      make-test: [ test_core, test_doctrine_bridge, test_doctrine_odm_bridge, test_doctrine_phpcr_bridge, test_eloquent_bridge, test_symfony_bridge, test_symfony_doctrine_bridge, test_symfony_doctrine_bridge_proxy_manager, test_symfony_eloquent_bridge, test_symfony_eloquent_bridge_proxy_manager ]
+                      variant: 'symfony/http-kernel:^8.0.0@beta symfony/validator:^8.0.0@beta'
         # To keep in sync with docker-compose.yml
         services:
             mysql:
